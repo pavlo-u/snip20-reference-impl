@@ -13,6 +13,36 @@ At the time of token creation you may configure:
 
 ## Usage examples:
 
+To build project:
+
+```RUSTFLAGS='-C link-arg=-s' cargo build --release --target wasm32-unknown-unknown```
+
+Copy the WASM file of the project:
+
+```cp ./target/wasm32-unknown-unknown/release/*.wasm ./contract.wasm```
+
+Compress the WASM file of the project:
+
+```cat ./contract.wasm | gzip -9 > ./contract.wasm.gz```
+
+To deploy the project to testnet:
+
+```secretcli tx compute store contract.wasm.gz --from <addr>  --gas 50000000 --gas-prices=1.0uscrt```
+
+To deploy the project to LocalSecret:
+
+```docker run -it -p 9091:9091 -p 26657:26657 -p 1317:1317 -p 5000:5000 --name localsecret ghcr.io/scrtlabs/localsecret:v1.6.0```
+
+You'll need to configure SecretCLI to work with LocalSecret:
+
+```secretcli config node http://localhost:26657```
+
+```secretcli config chain-id secretdev-1```
+
+```secretcli config keyring-backend test```
+
+```secretcli config output json```
+
 To create a new token:
 
 ```secretcli tx compute instantiate <code-id> '{"name":"<your_token_name>","symbol":"<your_token_symbol>","admin":"<optional_admin_address_defaults_to_the_from_address>","decimals":<number_of_decimals>,"initial_balances":[{"address":"<address1>","amount":"<amount_for_address1>"}],"prng_seed":"<base64_encoded_string>","config":{"public_total_supply":<true_or_false>,"enable_deposit":<true_or_false>,"enable_redeem":<true_or_false>,"enable_mint":<true_or_false>,"enable_burn":<true_or_false>}}' --label <token_label> --from <account>```
