@@ -43,7 +43,20 @@ You'll need to configure SecretCLI to work with LocalSecret:
 
 ```secretcli config output json```
 
-To create a new token:
+In another terminal:
+
+```docker exec -it localsecret /bin/bash```
+
+```cd code```
+
+```secretd tx compute store ./contract.wasm --gas 5000000 --from a -y```
+
+Check the code_id of your contract (it's probably 1):
+
+```secretd  query compute list-code```
+
+To create a new token
+First we instantiate the contract:
 
 ```secretcli tx compute instantiate <code-id> '{"name":"<your_token_name>","symbol":"<your_token_symbol>","admin":"<optional_admin_address_defaults_to_the_from_address>","decimals":<number_of_decimals>,"initial_balances":[{"address":"<address1>","amount":"<amount_for_address1>"}],"prng_seed":"<base64_encoded_string>","config":{"public_total_supply":<true_or_false>,"enable_deposit":<true_or_false>,"enable_redeem":<true_or_false>,"enable_mint":<true_or_false>,"enable_burn":<true_or_false>}}' --label <token_label> --from <account>```
 
