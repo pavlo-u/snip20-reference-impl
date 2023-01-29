@@ -53,7 +53,7 @@ In another terminal:
 
 Check the code_id of your contract (it's probably 1):
 
-```secretd  query compute list-code```
+```secretd query compute list-code```
 
 To create a new token
 First we instantiate the contract:
